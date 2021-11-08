@@ -3,10 +3,22 @@
 //    - get range of that company's stock price
 
 import { useState, useEffect } from 'react';
+import { Route, Routes, Link } from 'react-router-dom';
 import './App.css';
 
 // https://github.com/apexcharts/react-apexcharts
 import Chart from 'react-apexcharts';
+
+// Components
+import BarChart from './components/Charts/BarChart';
+import LineChart from './components/Charts/LineChart';
+import SearchBar from './components/SearchBar';
+
+
+
+
+
+
 
 // For Cors error
 // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
@@ -16,22 +28,6 @@ import Chart from 'react-apexcharts';
 //     return response.json();
 // }
 
-
-
-const chart = {
-  options: {
-    chart: {
-      id: 'apexchart-example'
-    },
-    xaxis: {
-      categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
-    }
-  },
-  series: [{
-    name: 'series-1',
-    data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
-  }]
-}
 
 
 function App() {
@@ -63,13 +59,51 @@ function App() {
   return (
     <div className="App">
       <h2>Member: Alex, David, Rile, Sang June</h2>
+
+
+
       <div className="price">
         {/* {price} */}
         {/* <br/> */}
         {/* {priceTime && priceTime.toLocaleTimeString()} */}
       </div>
 
-      <Chart options={chart.options} series={chart.series} type="bar" width={window.innerWidth} height={320} />
+      <div style={{ margin: 10 }}>
+        <SearchBar/>
+
+      </div>
+    
+      
+      <nav style={{ margin: 10 }}>
+        <Link to="/" style={{ textDecoration: 'none' }}>
+          <span style={{
+            padding: 5,
+            color: "green"
+          }}>Bar-Chart</span>
+        </Link>
+
+        <Link to="/LineChart" style={{ textDecoration: 'none' }}>
+        <span style={{
+            padding: 5,
+            color: "blue"
+          }}>Line-Chart</span>
+        </Link>
+      </nav>
+      
+
+      
+    
+
+
+    
+    <Routes>
+      <Route path="/" element={<BarChart/>}/>
+      <Route path="/LineChart" element={<LineChart/>}/>
+    </Routes>
+    
+      
+      
+      
     </div>
   );
 }

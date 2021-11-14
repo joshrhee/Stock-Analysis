@@ -58,7 +58,7 @@ function App() {
 
   return (
     <div className="App">
-      <h2>Member: Alex, David, Rile, Sang June</h2>
+      <h2>Member: Alex, David, Riley, Sang June</h2>
 
 
 

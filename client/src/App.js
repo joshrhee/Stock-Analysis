@@ -2,12 +2,10 @@
 //    - Search company's name
 //    - get range of that company's stock price
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
 import './App.css';
 
-// https://github.com/apexcharts/react-apexcharts
-import Chart from 'react-apexcharts';
 
 // Components
 import BarChart from './components/Charts/BarChart';
@@ -31,8 +29,8 @@ import SearchBar from './components/SearchBar';
 
 
 function App() {
-  const [price, setPrice] = useState("loading");
-  const [priceTime, setPriceTime] = useState(null);
+  // const [price, setPrice] = useState("loading");
+  // const [priceTime, setPriceTime] = useState(null);
 
   useEffect(() => {
 

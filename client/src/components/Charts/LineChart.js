@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 // https://github.com/apexcharts/react-apexcharts
 import Chart from 'react-apexcharts';
 

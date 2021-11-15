@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 // https://github.com/apexcharts/react-apexcharts
 import Chart from 'react-apexcharts';
 
@@ -18,8 +16,8 @@ options: {
 },
 series: [
     {
-    name: 'series-1',
-    data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+        name: 'series-1',
+        data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
     },
     {
         name: 'series-2',

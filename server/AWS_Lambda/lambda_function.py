@@ -5,6 +5,7 @@ import csv
 from urllib.request import urlopen
 from boto3.dynamodb.conditions import Key, Attr
 from datetime import date
+import random
 
 def updateRollingAverage(ave, old_sample, new_sample, range):
     ave = ave - (old_sample / range);
@@ -20,10 +21,14 @@ def lambda_handler(event, context):
     #default running average range is 100
     N = 100;
     
-    tickerName = 'NVDA' #update this with the actual stock ticker from the user data
+    tickerName = '' #'NVDA' #update this with the actual stock ticker from the user data
+    dates = ['2019-01-01', '2019-12-31', '2020-01-01', '2020-12-31']
+    
+    if tickerName == '':
+        tickerName = random.choice(['GOOG','AMZN','WMT','MCD','NTDOY','BA','AAPL','NVDA','JNJ'])
+        dates = ['2019-01-01', '2019-12-31', '2020-01-01', '2020-12-31']
     
     #start and end dates of both graphs in string and datetime formats. Again, grab these from user data
-    dates = ['2019-01-01', '2019-12-31', '2020-01-01', '2020-12-31']
     dateList = [dates[0].split('-'), dates[1].split('-'), dates[2].split('-'), dates[3].split('-')]
     dateYears = [dateList[0][0],dateList[1][0],dateList[2][0],dateList[3][0]]
     print(dateList)

@@ -27,6 +27,8 @@ def lambda_handler(event, context):
     if tickerName == '':
         tickerName = random.choice(['GOOG','AMZN','WMT','MCD','NTDOY','BA','AAPL','NVDA','JNJ'])
         dates = ['2019-01-01', '2019-12-31', '2020-01-01', '2020-12-31']
+        
+    print(tickerName)
     
     #start and end dates of both graphs in string and datetime formats. Again, grab these from user data
     dateList = [dates[0].split('-'), dates[1].split('-'), dates[2].split('-'), dates[3].split('-')]
@@ -179,16 +181,17 @@ def lambda_handler(event, context):
         adjclose[1].append(float(stockData[i][5]))
         
         #send job to glue to calculate running avg for all data and put in dynamoDB
-        glueClient = boto3.client('glue', region_name='us-east-1')
-        response = glueClient.start_job_run(JobName = 'TestProject', Arguments = {'--Ticker': tickerName, "--runningAvgSize": str(N)})
-        print(response)
-            
-        return {
-            "statusCode": 200,
-            "dates1": dateV[0],
-            "adjClose1": adjclose[0],
-            "avgRun1": avgRun[0],
-            "dates2": dateV[1],
-            "adjClose2": adjclose[1],
-            "avgRun2": avgRun[1],
-        }
+        try:
+            glueClient = boto3.client('glue', region_name='us-east-1')
+            response = glueClient.start_job_run(JobName = 'TestProject', Arguments = {'--Ticker': tickerName, "--runningAvgSize": str(N)})
+        finally:
+            return {
+                "statusCode": 200,
+                "dates1": dateV[0],
+                "adjClose1": adjclose[0],
+                "avgRun1": avgRun[0],
+                "dates2": dateV[1],
+                "adjClose2": adjclose[1],
+                "avgRun2": avgRun[1],
+            }
+            print(response)

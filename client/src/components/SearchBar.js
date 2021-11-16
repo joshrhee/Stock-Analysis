@@ -7,7 +7,7 @@ function SearchBar() {
     const [companyName, setCompanyName] = useState("");
     const [stockData, setStockData] = useState([]);
 
-    const handleSubmit = (event) => {
+    const getStockInfo = (event) => {
         // event.preventDefault();
         getStock(companyName)
         .then(res => {
@@ -19,9 +19,10 @@ function SearchBar() {
         })
     }
 
-    const handleChange = (event) => {
+    const inputChanged = (event) => {
         setCompanyName(event.currentTarget.value)
     }
+
 
     return(
         <div>
@@ -38,7 +39,7 @@ function SearchBar() {
                 name={companyName}
                 value={companyName}
                 placeholder="Search company"
-                onChange={handleChange}
+                onChange={inputChanged}
             />
             
             <button 
@@ -46,12 +47,9 @@ function SearchBar() {
                     margin: 10,
                     borderRadius: 5
                 }}
-                onClick={(e) => {handleSubmit(e)}}
+                onClick={(e) => {getStockInfo(e)}}
             >Search</button>
 
-            <br/>
-
-            {"Company: " + companyName}
             <br/>
             {"Stock Data: " + stockData}
 

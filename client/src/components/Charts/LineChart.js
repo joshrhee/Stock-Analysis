@@ -16,12 +16,16 @@ options: {
 },
 series: [
     {
-    name: 'series-1',
-    data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+        name: 'Google',
+        data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
     },
     {
-        name: 'series-2',
+        name: 'Facebook',
         data: [40, 60, 85, 50, 79, 80, 50, 11, 100]
+    },
+    {
+        name: 'Amazon',
+        data: [10, 20, 40, 50, 79, 10, 110, 12, 130]
     }
 ]
 }

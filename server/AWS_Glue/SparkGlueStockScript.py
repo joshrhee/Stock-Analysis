@@ -19,12 +19,10 @@ table = dynamodb.Table('Stocks')
 days = lambda i: i * 86400
 
 #get ticker name and running average length from lambda call
-#options = ['Ticker', 'runningAvgSize']
-#args = getResolvedOptions(sys.argv, options)
-#tickerName = args['Ticker']
-#runningAvgSize = int(args['runningAvgSize'])
-tickerName = "NVDA"
-runningAvgSize = 100
+options = ['Ticker', 'runningAvgSize']
+args = getResolvedOptions(sys.argv, options)
+tickerName = args['Ticker']
+runningAvgSize = int(args['runningAvgSize'])
 
 
 #get stock data from yahoo finance for ticker

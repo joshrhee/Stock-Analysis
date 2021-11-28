@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 
 const initialState = {
-    adjClose1: [],
-    adjClose2: [],
-    dates1: [],
-    dates2: [],
+    adjClosePostCovid: [],
+    adjClosePreCovid: [],
+    datesPreCovid: [],
+    datesPostCovid: [],
 }
     
   function reducer(state = initialState, action) {

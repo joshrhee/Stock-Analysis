@@ -21,10 +21,10 @@ function SearchBar(props) {
             dispatch({
                 type: "GET_STOCK_INFO",
                 payload: {
-                    adjClose1: res.data.adjClose1,
-                    adjClose2: res.data.adjClose2,
-                    dates1: res.data.dates1,
-                    dates2: res.data.dates2
+                    adjClosePostCovid: res.data.adjClosePostCovid,
+                    adjClosePreCovid: res.data.adjClosePreCovid,
+                    datesPreCovid: res.data.datesPreCovid,
+                    datesPostCovid: res.data.datesPostCovid
                 }
             });
         })

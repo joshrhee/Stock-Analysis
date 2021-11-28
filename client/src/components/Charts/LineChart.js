@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 function LineChart(props) {
 
-    var chart = {
+    var preCovidChart = {
         options: {
             chart: {
             id: 'apexchart-example'
@@ -22,53 +22,110 @@ function LineChart(props) {
             }
         },
         series: []
-        }
+    }
+
+    var postCovidChart = {
+        options: {
+            chart: {
+            id: 'apexchart-example'
+            },
+            xaxis: {
+                categories: []
+            },
+            yaxis: {
+                labels: {
+                formatter: function (value) {
+                    return "$" + value;
+                }
+                },
+            }
+        },
+        series: []
+    }
 
         let reduxState = useSelector(state => state);
 
+        console.log("reduxState.reducer: ", reduxState.reducer)
 
-        let dates = [];
-        for (let i = 0; i < reduxState.reducer.dates1.length; i++) {
-            dates.push(reduxState.reducer.dates1[i]);
-        }
-        for (let i = 0; i < reduxState.reducer.dates2.length; i++) {
-            dates.push(reduxState.reducer.dates2[i]);
-        }
+        let preCovidDates = reduxState.reducer.datesPreCovid;
+        let postCovidDates = reduxState.reducer.datesPostCovid;
 
+        let preCovidCount = 0;
+        let postCovidCount = 0;
+        if (preCovidDates !== undefined) {
+            preCovidCount = preCovidDates.length;
+            postCovidCount = postCovidDates.length;
+        }
         
+
+
         let closedPrice = [];
-        for (let i = 0; i < reduxState.reducer.adjClose1.length; i++) {
-            closedPrice.push(reduxState.reducer.adjClose1[i]);
+        for (let i = 0; i < reduxState.reducer.adjClosePreCovid.length; i++) {
+            closedPrice.push(reduxState.reducer.adjClosePreCovid[i]);
         }
-        for (let i = 0; i < reduxState.reducer.adjClose2.length; i++) {
-            closedPrice.push(reduxState.reducer.adjClose2[i]);
+        for (let i = 0; i < reduxState.reducer.adjClosePostCovid.length; i++) {
+            closedPrice.push(reduxState.reducer.adjClosePostCovid[i]);
         }
-
-
-        let averagePrice = [];
-        let currSum = 0;
-        for (let i = 0; i < closedPrice.length; i++) {
-            currSum += closedPrice[i];
-            averagePrice.push(currSum / (i + 1));
-        }
-
-        chart.options.xaxis.categories = dates;
-
-        chart.series.push({name: "Closed Price", data: closedPrice});
-
-        chart.series.push({name: "Average Price", data: averagePrice});
 
         
+        let preCovidClosedPrice = [];
+        let postCovidClosedPrice = [];
+        for (let i = 0; i < closedPrice.length; i++) {
+            if (preCovidCount > 0) {
+                preCovidClosedPrice.push(closedPrice[i]);
+                preCovidCount--;
+                continue
+            }
+            postCovidClosedPrice.push(closedPrice[i]);
+        }
+        
+        
+        let averagePreCovidPrice = [];
+        let averagePostCovidPrice = [];
+
+        let currSum = 0;
+        for (let i = 0; i < preCovidClosedPrice.length; i++) {
+            currSum += preCovidClosedPrice[i];
+            averagePreCovidPrice.push(currSum / (i + 1));
+        }
+
+        currSum = 0;
+        for (let i = 0; i < postCovidClosedPrice.length; i++) {
+            currSum += postCovidClosedPrice[i];
+            averagePostCovidPrice.push(currSum / (i + 1));
+        }
+
+        preCovidChart.options.xaxis.categories = preCovidDates;
+        postCovidChart.options.xaxis.categories = postCovidDates;
+
+        preCovidChart.series.push({name: "Closed Price", data: preCovidClosedPrice});
+        postCovidChart.series.push({name: "Closed Price", data: postCovidClosedPrice});
+
+        preCovidChart.series.push({name: "Average Price", data: averagePreCovidPrice});
+        postCovidChart.series.push({name: "Average Price", data: averagePostCovidPrice});
 
 
         return(
-            <Chart 
-                options={chart.options} 
-                series={chart.series} 
-                type="line" 
-                width={window.innerWidth} 
-                height={window.innerHeight/2} 
-            />
+            <div>
+                <h2>Pre-Covid</h2>
+                <Chart 
+                    options={preCovidChart.options} 
+                    series={preCovidChart.series} 
+                    type="line" 
+                    width={window.innerWidth} 
+                    height={window.innerHeight/2} 
+                />
+                <h2>Post-Covid</h2>
+                <Chart 
+                    options={postCovidChart.options} 
+                    series={postCovidChart.series} 
+                    type="line" 
+                    width={window.innerWidth} 
+                    height={window.innerHeight/2} 
+                />
+            </div>
+            
+            
         )
 }
 

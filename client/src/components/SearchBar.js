@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux';
 
 
 function SearchBar(props) {
-    // const API_URL = "https://pmn46fc45d.execute-api.us-east-1.amazonaws.com/dev"
-    
+    const API_URL = "https://ucf2tbkrc8.execute-api.us-east-1.amazonaws.com/dev"
+
     const [companyName, setCompanyName] = useState("");
     let dispatch = useDispatch();
 
@@ -28,8 +28,8 @@ function SearchBar(props) {
         // })
 
 
-        
-        
+
+
 
         dispatch({
             type: "GET_STOCK_INFO",
@@ -53,7 +53,7 @@ function SearchBar(props) {
             <label htmlFor="company-search">
                 <span className="company-search" style={{color:"red", fontWeight: "bold"}}>Comapny ticker: </span>
             </label>
-            
+
             <input
                 style={{
                     borderRadius: 5
@@ -65,8 +65,8 @@ function SearchBar(props) {
                 placeholder="Search company"
                 onChange={inputChanged}
             />
-            
-            <button 
+
+            <button
                 style={{
                     margin: 10,
                     borderRadius: 5

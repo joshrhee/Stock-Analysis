@@ -1,5 +1,6 @@
+import React from 'react';
 import { useState } from "react";
-
+import axios from 'axios';
 import { useDispatch } from 'react-redux';
 
 
@@ -11,22 +12,22 @@ function SearchBar(props) {
 
 
     const getStockInfo = async (companyName) => {
-
-        // await axios.get(`${API_URL}/getcompanystock/${companyName}`)
-        // .then(res => {
-        //     console.log("res: ", res)
-        //     dispatch({
-        //         type: "GET_STOCK_INFO",
-        //         payload: {
-        //             company: companyName,
-        //             ClosedPrice: res.data.body.adjClose1 // Not sure this part...
-        //         }
-        //     });
-        // })
-        // .catch(err => {
-        //     console.log(err)
-        // })
-
+/*
+         await axios.get(`${API_URL}/getcompanystock/${companyName}`)
+         .then(res => {
+             console.log("res: ", res)
+             dispatch({
+                 type: "GET_STOCK_INFO",
+                 payload: {
+                     company: companyName,
+                     ClosedPrice: res.data.body.adjClose1 // Not sure this part...
+                 }
+             });
+         })
+         .catch(err => {
+             console.log(err)
+         })
+*/
 
 
 

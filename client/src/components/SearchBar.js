@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import { useDispatch } from 'react-redux';
 
+import axios from "axios";
+
 
 function SearchBar(props) {
     const API_URL = "https://ucf2tbkrc8.execute-api.us-east-1.amazonaws.com/dev"
@@ -12,32 +14,35 @@ function SearchBar(props) {
 
     const getStockInfo = async (companyName) => {
 
-        // await axios.get(`${API_URL}/getcompanystock/${companyName}`)
-        // .then(res => {
-        //     console.log("res: ", res)
-        //     dispatch({
-        //         type: "GET_STOCK_INFO",
-        //         payload: {
-        //             company: companyName,
-        //             ClosedPrice: res.data.body.adjClose1 // Not sure this part...
-        //         }
-        //     });
-        // })
-        // .catch(err => {
-        //     console.log(err)
-        // })
-
-
-
-
-
-        dispatch({
-            type: "GET_STOCK_INFO",
-            payload: {
-                company: "Apple",
-                ClosedPrice: [30, 40, 10, 100, 200, 150, 180, 90, 210, 300]
-            }
+        await axios.get(`${API_URL}/getcompanystock/${companyName}`)
+        .then(res => {
+            console.log("res: ", res)
+            
+            dispatch({
+                type: "GET_STOCK_INFO",
+                payload: {
+                    adjClose1: res.data.adjClose1,
+                    adjClose2: res.data.adjClose2,
+                    dates1: res.data.dates1,
+                    dates2: res.data.dates2
+                }
+            });
         })
+        .catch(err => {
+            console.log(err)
+        })
+
+
+
+
+
+        // dispatch({
+        //     type: "GET_STOCK_INFO",
+        //     payload: {
+        //         company: "Apple",
+        //         ClosedPrice: [30, 40, 10, 100, 200, 150, 180, 90, 210, 300]
+        //     }
+        // })
 
     }
 
@@ -73,6 +78,14 @@ function SearchBar(props) {
                 }}
                 onClick={(e) => {getStockInfo(companyName)}}
             >Search</button>
+
+            <p
+                style={{
+                    margin: 10,
+                }}
+            >
+                Ticker: {companyName}
+            </p>
 
 
         </div>

@@ -11,8 +11,7 @@ function BarChart(props) {
             id: 'apexchart-example'
             },
             xaxis: {
-                categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
-                2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
+                categories: []
             },
             yaxis: {
                 labels: {
@@ -26,15 +25,37 @@ function BarChart(props) {
         }
 
         let reduxState = useSelector(state => state);
+
+
+        let dates = [];
+        for (let i = 0; i < reduxState.reducer.dates1.length; i++) {
+            dates.push(reduxState.reducer.dates1[i]);
+        }
+        for (let i = 0; i < reduxState.reducer.dates2.length; i++) {
+            dates.push(reduxState.reducer.dates2[i]);
+        }
+
         
+        let closedPrice = [];
+        for (let i = 0; i < reduxState.reducer.adjClose1.length; i++) {
+            closedPrice.push(reduxState.reducer.adjClose1[i]);
+        }
+        for (let i = 0; i < reduxState.reducer.adjClose2.length; i++) {
+            closedPrice.push(reduxState.reducer.adjClose2[i]);
+        }
+
+
         let averagePrice = [];
         let currSum = 0;
-        for (let i = 0; i < reduxState.reducer.ClosedPrice.length; i++) {
-            currSum += reduxState.reducer.ClosedPrice[i];
+        for (let i = 0; i < closedPrice.length; i++) {
+            currSum += closedPrice[i];
             averagePrice.push(currSum / (i + 1));
         }
 
-        chart.series.push({name: "Closed Price", data: reduxState.reducer.ClosedPrice});
+        chart.options.xaxis.categories = dates;
+
+        chart.series.push({name: "Closed Price", data: closedPrice});
+
         chart.series.push({name: "Average Price", data: averagePrice});
 
         return(

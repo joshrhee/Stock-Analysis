@@ -60,20 +60,61 @@ df = df.withColumn("momentum", func.when(func.isnull(df.Adj_Close - df.prev_10th
 df = df.drop('DateSec')
 df = df.drop("prev_10th_val")
 df.show()
+years = []
+date = [[]]
+open = [[]]
+high = [[]]
+low = [[]]
+close = [[]]
+adj_close = [[]]
+volume = [[]]
+running_avg = [[]]
+momentum = [[]]
+first_date = stockData[0][0].split('-')
+last_year = first_date[0]
+years.append(last_year)
+count = 0
+for row in df.collect():
+    curr_date = row["Date"].split('-')
+    curr_year = curr_date[0]
+    if curr_year > last_year:
+        years.append(curr_year)
+        date.append([])
+        open.append([])
+        high.append([])
+        low.append([])
+        close.append([])
+        adj_close.append([])
+        volume.append([])
+        running_avg.append([])
+        momentum.append([])
+        count = count + 1
+        last_year = curr_year
+    
+    date[count].append(row["Date"])
+    open[count].append(row["Open"])
+    high[count].append(row["High"])
+    low[count].append(row["Low"])
+    close[count].append(row["Close"])
+    adj_close[count].append( row["Adj_Close"])
+    volume[count].append(row["Volume"])
+    running_avg[count].append(Decimal(row["running_avg"]).quantize(Decimal('1.000000')))
+    momentum[count].append( Decimal(row["momentum"]).quantize(Decimal('1.000000')))
 
 #this can be sped up by doing batch pushes of df to dynamoDB but hey, again, it works at least!
-for row in df.collect():
+for i in range(len(years)):
     table.put_item(
         Item={                        
             "Ticker": tickerName,
-            "Date": row["Date"],
-            "Open": row["Open"],
-            "High": row["High"],
-            "Low": row["Low"],
-            "Close": row["Close"],
-            "Adj_Close": row["Adj_Close"],
-            "Volume": row["Volume"],
-            "running_avg": Decimal(row["running_avg"]).quantize(Decimal('1.000000')),
-            "momentum": Decimal(row["momentum"]).quantize(Decimal('1.000000')),
+            "Year": years[i],
+            "Date": date[i],
+            "Open": open[i],
+            "High": high[i],
+            "Low": low[i],
+            "Close": close[i],
+         "Adj_Close": adj_close[i],
+            "Volume": volume[i],
+            "running_avg": running_avg[i],
+            "momentum": momentum[i],
     }
 )

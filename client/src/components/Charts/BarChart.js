@@ -1,46 +1,146 @@
-// https://github.com/apexcharts/react-apexcharts
 import Chart from 'react-apexcharts';
 
+import { useSelector } from 'react-redux';
+
+function BarChart(props) {
 
 
-
-
-const chart = {
-options: {
-    chart: {
-    id: 'apexchart-example'
-    },
-    xaxis: {
-    categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+    var preCovidChart = {
+        options: {
+            chart: {
+            id: 'apexchart-example'
+            },
+            xaxis: {
+                categories: []
+            },
+            yaxis: {
+                labels: {
+                formatter: function (value) {
+                    return "$" + value;
+                }
+                },
+            }
+        },
+        series: []
     }
-},
-series: [
-    {
-        name: 'series-1',
-        data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
-    },
-    {
-        name: 'series-2',
-        data: [40, 60, 85, 50, 79, 80, 50, 11, 100]
-    },
-    {
-        name: 'Amazon',
-        data: [10, 20, 40, 50, 79, 10, 110, 12, 130]
+
+    var postCovidChart = {
+        options: {
+            chart: {
+            id: 'apexchart-example'
+            },
+            xaxis: {
+                categories: []
+            },
+            yaxis: {
+                labels: {
+                formatter: function (value) {
+                    return "$" + value;
+                }
+                },
+            }
+        },
+        series: []
     }
-]
-}
+
+        let reduxState = useSelector(state => state);
+
+        let preCovidDates = reduxState.reducer.datesPreCovid;
+        let postCovidDates = reduxState.reducer.datesPostCovid;
+
+        let preCovidCount = 0;
+        let postCovidCount = 0;
+        if (preCovidDates !== undefined) {
+            preCovidCount = preCovidDates.length;
+            postCovidCount = postCovidDates.length;
+        }
+        
+
+        // Handling if there is no data
+        if (reduxState.reducer.adjClosePostCovid === undefined) {
+            return(
+                <p
+                    style={{
+                        textAlign: "center",
+                        marginTop: "50px",
+                        color: "red",
+                        fontSize: "20px",
+                        fontWeight: "bold"
+                    }}
+                >
+                    Please check that you correctly entered your ticker name. If you are still looking this statement, then the selected stock is not in the database.
+                </p>
+            )
+        }
+
+        let closedPrice = [];
+        for (let i = 0; i < reduxState.reducer.adjClosePreCovid.length; i++) {
+            closedPrice.push(reduxState.reducer.adjClosePreCovid[i]);
+        }
+        for (let i = 0; i < reduxState.reducer.adjClosePostCovid.length; i++) {
+            closedPrice.push(reduxState.reducer.adjClosePostCovid[i]);
+        }
+
+        
+        let preCovidClosedPrice = [];
+        let postCovidClosedPrice = [];
+        for (let i = 0; i < closedPrice.length; i++) {
+            if (preCovidCount > 0) {
+                preCovidClosedPrice.push(closedPrice[i]);
+                preCovidCount--;
+                continue
+            }
+            postCovidClosedPrice.push(closedPrice[i]);
+        }
+        
+        
+        let averagePreCovidPrice = [];
+        let averagePostCovidPrice = [];
+
+        let currSum = 0;
+        for (let i = 0; i < preCovidClosedPrice.length; i++) {
+            currSum += preCovidClosedPrice[i];
+            averagePreCovidPrice.push(currSum / (i + 1));
+        }
+
+        currSum = 0;
+        for (let i = 0; i < postCovidClosedPrice.length; i++) {
+            currSum += postCovidClosedPrice[i];
+            averagePostCovidPrice.push(currSum / (i + 1));
+        }
+
+        preCovidChart.options.xaxis.categories = preCovidDates;
+        postCovidChart.options.xaxis.categories = postCovidDates;
+
+        preCovidChart.series.push({name: "Closed Price", data: preCovidClosedPrice});
+        postCovidChart.series.push({name: "Closed Price", data: postCovidClosedPrice});
+
+        preCovidChart.series.push({name: "Average Price", data: averagePreCovidPrice});
+        postCovidChart.series.push({name: "Average Price", data: averagePostCovidPrice});
 
 
-function BarChart() {
-    return(
-        <Chart 
-            options={chart.options} 
-            series={chart.series} 
-            type="bar" 
-            width={window.innerWidth} 
-            height={window.innerHeight/2} 
-        />
-    )
+        return(
+            <div>
+                <h2>Pre-Covid</h2>
+                <Chart 
+                    options={preCovidChart.options} 
+                    series={preCovidChart.series} 
+                    type="bar" 
+                    width={window.innerWidth} 
+                    height={window.innerHeight/2} 
+                />
+                <h2>Post-Covid</h2>
+                <Chart 
+                    options={postCovidChart.options} 
+                    series={postCovidChart.series} 
+                    type="bar" 
+                    width={window.innerWidth} 
+                    height={window.innerHeight/2} 
+                />
+            </div>
+            
+            
+        )
 }
 
 export default BarChart;

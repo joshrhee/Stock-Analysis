@@ -56,6 +56,22 @@ function BarChart(props) {
         }
         
 
+        // Handling if there is no data
+        if (reduxState.reducer.adjClosePostCovid === undefined) {
+            return(
+                <p
+                    style={{
+                        textAlign: "center",
+                        marginTop: "50px",
+                        color: "red",
+                        fontSize: "20px",
+                        fontWeight: "bold"
+                    }}
+                >
+                    Please check that you correctly entered your ticker name. If you are still looking this statement, then the selected stock is not in the database.
+                </p>
+            )
+        }
 
         let closedPrice = [];
         for (let i = 0; i < reduxState.reducer.adjClosePreCovid.length; i++) {

@@ -31,19 +31,6 @@ function SearchBar(props) {
         .catch(err => {
             console.log(err)
         })
-
-
-
-
-
-        // dispatch({
-        //     type: "GET_STOCK_INFO",
-        //     payload: {
-        //         company: "Apple",
-        //         ClosedPrice: [30, 40, 10, 100, 200, 150, 180, 90, 210, 300]
-        //     }
-        // })
-
     }
 
 

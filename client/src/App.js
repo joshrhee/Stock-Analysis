@@ -1,8 +1,3 @@
-// Need to do:
-//    - Search company's name
-//    - get range of that company's stock price
-
-import { useEffect } from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
 import './App.css';
 
@@ -32,43 +27,34 @@ function App() {
   // const [price, setPrice] = useState("loading");
   // const [priceTime, setPriceTime] = useState(null);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    // let timeoutId;
-    // async function getLatestPrice() {
-    //   const data = await getStocks();
-    //   const gme = data.chart.result[0];
-    //   setPrice(gme.meta.regularMarketPrice.toFixed(2))
-    //   setPriceTime(new Date(gme.meta.regularMarketTime * 1000))
-    //   // calling getLatestPrice() self again in every 5 seconds.
-    //   timeoutId = setTimeout(getLatestPrice, 5000);
-    // }
+  //   // let timeoutId;
+  //   // async function getLatestPrice() {
+  //   //   const data = await getStocks();
+  //   //   const gme = data.chart.result[0];
+  //   //   setPrice(gme.meta.regularMarketPrice.toFixed(2))
+  //   //   setPriceTime(new Date(gme.meta.regularMarketTime * 1000))
+  //   //   // calling getLatestPrice() self again in every 5 seconds.
+  //   //   timeoutId = setTimeout(getLatestPrice, 5000);
+  //   // }
 
-    // // calling getLatestPrice() every 5 seconds.
-    // timeoutId = setTimeout(getLatestPrice, 5000);
+  //   // // calling getLatestPrice() every 5 seconds.
+  //   // timeoutId = setTimeout(getLatestPrice, 5000);
 
-    // return () => {
-    //   clearTimeout(timeoutId)
-    // }
+  //   // return () => {
+  //   //   clearTimeout(timeoutId)
+  //   // }
 
-  }, []);
+  // }, []);
 
 
   return (
     <div className="App">
       <h2>Member: Alex, David, Riley, Sang June</h2>
 
-
-
-      <div className="price">
-        {/* {price} */}
-        {/* <br/> */}
-        {/* {priceTime && priceTime.toLocaleTimeString()} */}
-      </div>
-
       <div style={{ margin: 10 }}>
         <SearchBar/>
-
       </div>
     
       
@@ -87,12 +73,6 @@ function App() {
           }}>Line-Chart</span>
         </Link>
       </nav>
-      
-
-      
-    
-
-
     
     <Routes>
       <Route path="/" element={<BarChart/>}/>

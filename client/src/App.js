@@ -36,11 +36,24 @@ function App() {
           }}>Line-Chart</span>
         </Link>
       </nav>
+
+      <p
+        style={{
+          marginTop: 30,
+          marginBottom: 30,
+          color: "skyblue",
+          fontWeight: "bold"
+        }}
+      >
+        Please wait a couple of seconds for the data to load.
+      </p>
     
     <Routes>
       <Route path="/" element={<BarChart/>}/>
       <Route path="/LineChart" element={<LineChart/>}/>
     </Routes>
+
+    
     
       
       
